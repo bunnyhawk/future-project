@@ -5,7 +5,7 @@ import { useFetch } from '../state/hooks';
 import Header from '../components/Header';
 import NameList from '../components/NameList';
 
-const API_URL = 'https://a6sz7rpoic.execute-api.us-west-2.amazonaws.com/dev/';
+const API_URL = 'https://a6sz7rpoic.execute-api.us-west-2.amazonaws.com/dev/?records=100';
 const SUMMARY_API = 'https://api.covidtracking.com/v1/us/current.json';
 
 const Home = () => {
