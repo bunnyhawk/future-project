@@ -5,31 +5,52 @@ export const GET_LIST_DATA = 'GET_LIST_DATA';
 export const GET_MORE_LIST_DATA = 'GET_MORE_LIST_DATA';
 export const FETCHING = 'FETCHING';
 export const FETCHED = 'FETCHED';
-export const FETCH_ERROR = 'FETCH_ERROR'
+export const FETCH_ERROR = 'FETCH_ERROR';
+
+export const initialState = {
+  status: 'idle',
+  error: null,
+  data: [],
+  currentList: [],
+  recordsVisible: 100,
+};
+
+export const namesReducer = (state, action) => {
+  switch (action.type) {
+    case FETCHING:
+      return { ...initialState, status: FETCHING };
+    case FETCHED:
+      return {
+        ...initialState,
+        status: FETCHED,
+        data: action.payload,
+        currentList: action.payload.slice(0, state.recordsVisible)
+    };
+    case FETCH_ERROR:
+      return { ...initialState, status: FETCH_ERROR, error: action.payload };
+    case SET_RECORDS_VISIBLE:
+      return {
+        ...initialState,
+        recordsVisible: action.payload
+      };
+    case GET_MORE_LIST_DATA: {
+      const { currentList, data, recordsVisible } = state;
+      const newRecordsVisible = recordsVisible + 100;
+      return {
+        ...initialState,
+        currentList: [...currentList, ...data.slice(recordsVisible, newRecordsVisible)],
+        recordsVisible: newRecordsVisible,
+      }
+    }
+    default:
+      return state;
+  }
+};
 
 export const useFetch = (url, localStorageKey) => {
-	const cache = useRef({});
-
-	const initialState = {
-		status: 'idle',
-		error: null,
-    data: [],
-    currentList: [],
-    recordsVisible: 100,
-	};
-
-	const [state, dispatch] = useReducer((state, action) => {
-		switch (action.type) {
-			case FETCHING:
-				return { ...initialState, status: 'fetching' };
-			case FETCHED:
-				return { ...initialState, status: 'fetched', data: action.payload };
-			case FETCH_ERROR:
-				return { ...initialState, status: 'error', error: action.payload };
-			default:
-				return state;
-		}
-	}, initialState);
+  const cache = useRef({});
+  
+  const [ state, dispatch ] = useReducer(namesReducer, initialState);
 
 	useEffect(() => {
 		let cancelRequest = false;

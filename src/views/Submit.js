@@ -1,16 +1,26 @@
 import React from 'react';
 import { useForm } from "react-hook-form";
-import Header from '../components/Header';
+import Title from '../components/Title';
 import TextInput from '../components/TextInput';
+
+const API_URL = 'https://rdgqc6nd42.execute-api.us-west-2.amazonaws.com/dev/send-mail'
 
 const Submit = () => {
   const { handleSubmit, register, errors } = useForm();
-  const onSubmit = values => console.log(values);
+
+  const onSubmit = values => {
+    fetch(API_URL, {
+      method: 'POST',
+      body: JSON.stringify(values)
+    }).then(() => {
+      console.log('Success')
+    });
+  }
 
   return (
     <div className="bg-background text-light text-center">
       <div className="home__header m-auto mb-4">
-        <Header>Honor a loved one</Header>
+        <Title>Honor a loved one</Title>
         <p className="leading-tight mb-12">Fill out the form below and we’ll publish their details on our page.</p>
       </div>
       <form onSubmit={handleSubmit(onSubmit)} className="honorForm m-auto text-left">

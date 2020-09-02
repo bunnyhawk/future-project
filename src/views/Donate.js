@@ -1,11 +1,11 @@
 import React from 'react';
-import Header from '../components/Header';
+import Title from '../components/Title';
 
 const Donate = () => {
   return (
     <div>
       <div className="m-auto mb-4">
-        <Header>Make a donation</Header>
+        <Title>Make a donation</Title>
       </div>
       <p className="leading-tight mb-4">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec commodo quam eget elit molestie tristique. Cras non dictum ligula.</p>
       <ul>
