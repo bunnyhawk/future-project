@@ -14,7 +14,7 @@ module.exports = {
       text: 'var(--color-text)',
       cta: '#FF3C3C',
       light: '#FFF',
-      dark: '#26272B'
+      dark: '#0A0A0A'
     }
   },
   variants: {
