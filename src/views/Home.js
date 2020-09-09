@@ -1,5 +1,5 @@
 import React, { useReducer } from 'react';
-import { NamesContext } from '../state/context';
+// import { NamesContext } from '../state/context';
 import { useFetch, FETCHING, FETCHED, namesReducer, GET_MORE_LIST_DATA} from '../state/hooks';
 
 import Title from '../components/Title';
@@ -9,13 +9,13 @@ const API_URL = 'https://rdgqc6nd42.execute-api.us-west-2.amazonaws.com/dev/name
 const SUMMARY_API = 'https://api.covidtracking.com/v1/us/current.json';
 
 const Home = () => {
-  const namesState = useFetch(API_URL, 'covidNames');
-  const { data: summaryData } = useFetch(SUMMARY_API, 'summary');
+  const [ namesState, dispatch ] = useFetch(API_URL, 'covidNames');
+  const [{ data: summaryData }] = useFetch(SUMMARY_API, 'summary');
   const deaths = summaryData && summaryData[0] ? summaryData[0].death : '180,000';
   const { status, currentList } = namesState;
 
   // eslint-disable-next-line no-unused-vars
-  const [_, dispatch] = useReducer(namesReducer, namesState);
+  // const [_, dispatch] = useReducer(namesReducer, namesState);
 
   function handleViewMore() {
     dispatch({ type: GET_MORE_LIST_DATA });

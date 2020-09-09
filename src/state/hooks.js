@@ -18,26 +18,27 @@ export const initialState = {
 export const namesReducer = (state, action) => {
   switch (action.type) {
     case FETCHING:
-      return { ...initialState, status: FETCHING };
+      return { ...state, status: FETCHING };
     case FETCHED:
       return {
-        ...initialState,
+        ...state,
         status: FETCHED,
         data: action.payload,
         currentList: action.payload.slice(0, state.recordsVisible)
     };
     case FETCH_ERROR:
-      return { ...initialState, status: FETCH_ERROR, error: action.payload };
+      return { ...state, status: FETCH_ERROR, error: action.payload };
     case SET_RECORDS_VISIBLE:
       return {
-        ...initialState,
+        ...state,
         recordsVisible: action.payload
       };
     case GET_MORE_LIST_DATA: {
+      console.log('state', state)
       const { currentList, data, recordsVisible } = state;
       const newRecordsVisible = recordsVisible + 100;
       return {
-        ...initialState,
+        ...state,
         currentList: [...currentList, ...data.slice(recordsVisible, newRecordsVisible)],
         recordsVisible: newRecordsVisible,
       }
@@ -47,16 +48,16 @@ export const namesReducer = (state, action) => {
   }
 };
 
-export const useFetch = (url, localStorageKey) => {
+export const useFetch = (url, sessionStorageKey) => {
   const cache = useRef({});
   
   const [ state, dispatch ] = useReducer(namesReducer, initialState);
 
 	useEffect(() => {
 		let cancelRequest = false;
-    if (!url || !localStorageKey) return;
+    if (!url || !sessionStorageKey) return;
     
-    const localData = localStorage.getItem(localStorageKey);
+    const localData = sessionStorage.getItem(sessionStorageKey);
 
     if (localData) {
       dispatch({ type: FETCHED, payload: JSON.parse(localData) });
@@ -73,7 +74,7 @@ export const useFetch = (url, localStorageKey) => {
             cache.current[url] = data;
             if (cancelRequest) return;
             dispatch({ type: FETCHED, payload: data });
-            localStorage.setItem(localStorageKey, JSON.stringify(data));;
+            sessionStorage.setItem(sessionStorageKey, JSON.stringify(data));;
           } catch (error) {
             if (cancelRequest) return;
             dispatch({ type: FETCH_ERROR, payload: error.message });
@@ -87,7 +88,7 @@ export const useFetch = (url, localStorageKey) => {
 		return function cleanup() {
 			cancelRequest = true;
 		};
-	}, [url, localStorageKey]);
+	}, [url, sessionStorageKey]);
 
-	return state;
+	return [ state, dispatch ];
 };
