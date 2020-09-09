@@ -27,16 +27,16 @@ const NameList = ({ list }) => {
                 type="light"
                 effect="solid"
               >
-                  <div className="bg-light p-3">
-                    <div className="float-right sm:hidden"><CloseIcon /></div>
+                <div className="bg-light p-3">
+                  <div className="float-right sm:hidden"><CloseIcon /></div>
 
-                    <strong>{person.name}</strong>
-                    <br />
-                    {person.age}, {person.location}
-                    <p className="my-2 italic">{person.about}</p>
-                    <p className="opacity-50">{person.source}</p>
-                  </div>
-                </ReactTooltip>
+                  <strong>{person.name}</strong>
+                  <br />
+                  {person.age}, {person.location}
+                  <p className="my-2 italic">{person.about}</p>
+                  <p className="opacity-50">{person.source}</p>
+                </div>
+              </ReactTooltip>
             </li>
           </CSSTransition>
         ))}
