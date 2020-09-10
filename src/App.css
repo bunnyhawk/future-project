@@ -35,8 +35,9 @@
 	position: relative; */
 }
 
-.dot {
-  color: white
+.dots {
+  color: white;
+  min-height: 50px;
 }
 .dot1 {
   animation: visibility 2s linear infinite;
@@ -202,9 +203,9 @@ input:focus + label {
   transition: all 300ms;
 }
 
-.__react_component_tooltip.show {
+.__react_component_tooltip {
   font-size: 16px;
-  opacity: 1;
+  opacity: 1 !important;
   max-width: 90vw;
   width: 500px;
 }
