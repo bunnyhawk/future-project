@@ -1,6 +1,10 @@
 :root {
   --timeout: 500ms;
   --list-item-max-height: 30px;
+  --color-primary: #FF3C3C;
+  --color-background: #0A0A0A;
+  --color-text: #fff;
+  --color-cta: #FF3C3C;
 }
 
 .home__header {
@@ -197,6 +201,30 @@ input:focus + label {
 }
 
 .fade-exit-active {
+  max-height: 0;
+  opacity: 0;
+  transition: all var(--timeout);
+  transition: all 300ms;
+}
+
+.submit-enter {
+  max-height: 0;
+  opacity: 0;
+}
+
+.submit-enter-active {
+  max-height: 2000px;
+  opacity: 1;
+  transition: all var(--timeout);
+  transition: all 300ms;
+}
+
+.submit-exit {
+  max-height: 2000px;
+  opacity: 1;
+}
+
+.submit-exit-active {
   max-height: 0;
   opacity: 0;
   transition: all var(--timeout);

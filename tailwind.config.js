@@ -18,6 +18,7 @@ module.exports = {
     }
   },
   variants: {
+    primary: ['hover', 'focus', 'active'],
     cta: ['hover', 'focus', 'active'],
     light: ['hover', 'focus', 'active'],
     dark: ['hover', 'focus', 'active']
