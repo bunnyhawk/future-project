@@ -5,7 +5,6 @@ import { CSSTransition } from "react-transition-group";
 
 const NameList = ({ list, isQueryList }) => {
   return (
-    // <TransitionGroup component="ul" className="text-left">
     <ul className="text-left">
       {list.map((person, idx) => (
         <CSSTransition

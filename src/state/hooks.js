@@ -157,16 +157,6 @@ export const airTable = {
   useQueryAirTable: () => {
     const [state, dispatch] = useReducer(namesReducer, initialState);
 
-    useEffect(() => {
-      airTable.cancelRequest = false;
-
-      airTable.fetchData(null, dispatch);
-
-      return function cleanup() {
-        airTable.cancelRequest = true;
-      };
-    }, []);
-
     return [state, dispatch];
   },
   fetchMoreData: (sessionStorageKey, dispatch) => {
