@@ -29,7 +29,7 @@ export const namesReducer = (state, action) => {
     case FETCH_ERROR:
       return { ...state, status: FETCH_ERROR, error: action.payload };
     case SET_NATIONAL_DATA:
-      return { ...state, data: action.payload };
+      return { ...state, nationalData: action.payload };
     case SET_LIST_DATA:
       return {
         ...state,
@@ -63,14 +63,16 @@ export const useFetch = (url, sessionStorageKey) => {
         dispatch({ type: FETCHING });
         if (cache.current[url]) {
           const data = cache.current[url];
-          dispatch({ type: FETCHED, payload: data });
+          dispatch({ type: FETCHED });
+          dispatch({ type: SET_NATIONAL_DATA, payload: data })
         } else {
           try {
             const response = await fetch(url);
             const data = await response.json();
             cache.current[url] = data;
             if (cancelRequest) return;
-            dispatch({ type: FETCHED, payload: data });
+            dispatch({ type: FETCHED });
+            dispatch({ type: SET_NATIONAL_DATA, payload: data })
             sessionStorage.setItem(sessionStorageKey, JSON.stringify(data));
           } catch (error) {
             if (cancelRequest) return;
