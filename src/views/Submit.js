@@ -8,12 +8,16 @@ import FileInput from '../components/FileInput';
 const API_URL = 'https://rdgqc6nd42.execute-api.us-west-2.amazonaws.com/dev/send-mail';
 
 const Submit = () => {
-  const [ submitted, setSubmitted ] = useState(true);
+  const [ submitted, setSubmitted ] = useState(false);
+  const [ isSubmitting, setIsSubmitting ] = useState(false);
   const { handleSubmit, register, errors, getValues, reset } = useForm();
   
   const onSubmit = values => {
     const { submissionProof, ...rest} = values;
     const formData = new FormData();
+
+    setIsSubmitting(true);
+  
     for (const name in rest) {
       formData.append(name, rest[name])
     }
@@ -27,7 +31,8 @@ const Submit = () => {
     }).then((result) => {
       reset(result);
       setSubmitted(true);
-    });
+      setIsSubmitting(false);
+    }).catch(err => setIsSubmitting(false));
   }
 
   const handleButtonClick = () => setSubmitted(false);
@@ -37,16 +42,13 @@ const Submit = () => {
       <div className="home__header m-auto mb-4">
         <Title>Honor a loved one</Title>
         <CSSTransition in={!submitted} timeout={300} classNames="submit" unmountOnExit>
-          <p className="leading-tight mb-12">There's no easy way to ask for this. Losing a loved one is hard. And yet, the internet can be cruel. To deter trolls and honor your loved one with dignity, please verify their passing by providing the info below.</p>
+          <p className="leading-tight">There's no easy way to ask for this. Losing a loved one is hard. And yet, the internet can be cruel. To deter trolls and honor your loved one with dignity, please verify their passing by providing the info below.</p>
         </CSSTransition>
-        {/* <CSSTransition in={submitted} timeout={300} classNames="submit" unmountOnExit> */}
-        {submitted && (
-          <p className="leading-tight mb-12">We appreciate you taking the time to commemorate your loved one. Please give us some time to evalute and update our records.</p>
-        )} 
-          
-        {/* </CSSTransition> */}
+        <CSSTransition in={submitted} timeout={300} classNames="submit" unmountOnExit>
+          <p className="leading-tight">We appreciate you taking the time to commemorate your loved one. Please give us some time to evalute and update our records.</p>
+        </CSSTransition>
       </div>
-      <CSSTransition in={!submitted} timeout={300} classNames="submit" unmountOnExit>
+      <CSSTransition in={!submitted} timeout={300} classNames="fade" unmountOnExit>
         <form
           name="honorForm"
           onSubmit={handleSubmit(onSubmit)}
@@ -133,8 +135,12 @@ const Submit = () => {
         </form>
       </CSSTransition>
       {submitted &&
-        <button className="bg-light px-4 py-2 rounded text-background order-1 sm:order-2 mb-5 sm:mb-0" onClick={handleButtonClick}>Submit someone else</button>
-}
+        <button
+          className="bg-light px-4 py-2 rounded text-background order-1 sm:order-2 mb-5 sm:mb-0"
+          onClick={handleButtonClick}
+          disabled={isSubmitting}
+        >Submit someone else</button>
+      }
     </div>
   );
 }

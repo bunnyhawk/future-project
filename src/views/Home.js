@@ -1,9 +1,5 @@
-import React from "react";
-import {
-  useFetch,
-  FETCHING,
-  airTable,
-} from "../state/hooks";
+import React, { useState } from "react";
+import { useFetch, FETCHING, airTable } from "../state/hooks";
 
 import Title from "../components/Title";
 import NameList from "../components/NameList";
@@ -11,16 +7,40 @@ import NameList from "../components/NameList";
 const SUMMARY_API = "https://api.covidtracking.com/v1/us/current.json";
 
 const Home = () => {
-  const [namesState, dispatch] = airTable.useFetchAirTable("covidNames");
-  const [{ data: summaryData }] = useFetch(SUMMARY_API, "summary");
+  const [ searchTerm, setSearchTerm ] = useState('');
+  const [ namesState, dispatch ] = airTable.useFetchAirTable("covidNames");
+  const [ { queryList }, queryDispatch ] = airTable.useQueryAirTable();
+  const [{ nationalData }] = useFetch(SUMMARY_API, "summary");
+
   const deaths =
-    summaryData && summaryData[0] ? summaryData[0].death : "180,000";
+    nationalData && nationalData[0] ? nationalData[0].death : "180,000";
   const { status, currentList } = namesState;
+
+  let isQueryList =  queryList.length > 0;
 
   function handleViewMore() {
     return airTable.fetchMoreData("covidNames", dispatch);
   }
 
+  function handleSearchSubmit() {
+    airTable.fetchQueriedData(queryDispatch, searchTerm)
+  }
+
+  function handleSearchInputChange(event) {
+    setSearchTerm(event.target.value);
+  }
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearchSubmit()
+    }
+  }
+
+  function handleSearchClear() {
+    setSearchTerm('');
+    airTable.clearQueriedData(queryDispatch);
+  }
+  
   return (
     <div className="bg-dark text-light text-center">
       <div className="home__header m-auto">
@@ -37,9 +57,31 @@ const Home = () => {
           lung disease or diabetes seem to be at higher risk for developing more
           serious complications from COVID-19 illness.
         </p>
+        <div className="flex items-end mx-12 mb-10">
+          <div className="w-full mr-4">
+            <label htmlFor="search" className="block text-sm normal-case text-left">
+              Find someone
+            </label>
+            <input
+              type="text"
+              name="search"
+              value={searchTerm}
+              onKeyDown={handleKeyDown}
+              onChange={handleSearchInputChange}
+              className="w-full bg-background text-base border-b border-solid border-light py-2"
+            />
+          </div>
+          <button
+            className="border border-solid border-light px-3 py-2 hover:border-cta focus:border-cta rounded"
+            onClick={isQueryList ? handleSearchClear : handleSearchSubmit}>
+              { isQueryList ? 'Clear' : 'Search' }
+            </button>
+        </div>
       </div>
 
-      {currentList.length > 0 && <NameList list={currentList || []} />}
+      {currentList.length > 0 && 
+        <NameList list={isQueryList ? queryList: currentList || []} isQueryList={isQueryList} />
+      }
       <div className="dots flex justify-center">
         {status === FETCHING && (
           <div>

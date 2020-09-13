@@ -1,8 +1,9 @@
 import { useEffect, useRef, useReducer } from "react";
 
-export const SET_DATA = "SET_DATA";
+export const SET_NATIONAL_DATA = "SET_NATIONAL_DATA";
 export const GET_LIST_DATA = "GET_LIST_DATA";
 export const SET_LIST_DATA = "SET_LIST_DATA";
+export const SET_QUERY_LIST_DATA = "SET_QUERY_LIST_DATA";
 export const FETCHING = "FETCHING";
 export const FETCHED = "FETCHED";
 export const FETCH_ERROR = "FETCH_ERROR";
@@ -10,8 +11,9 @@ export const FETCH_ERROR = "FETCH_ERROR";
 export const initialState = {
   status: "idle",
   error: null,
-  data: [],
+  nationalData: [],
   currentList: [],
+  queryList: [],
   recordsVisible: 100,
 };
 
@@ -26,13 +28,18 @@ export const namesReducer = (state, action) => {
       };
     case FETCH_ERROR:
       return { ...state, status: FETCH_ERROR, error: action.payload };
-    case SET_DATA:
+    case SET_NATIONAL_DATA:
       return { ...state, data: action.payload };
     case SET_LIST_DATA:
       return {
         ...state,
         currentList: [...state.currentList, ...action.payload],
       };
+    case SET_QUERY_LIST_DATA:
+      return {
+        ...state,
+        queryList: action.payload
+      }
     default:
       return state;
   }
@@ -89,12 +96,16 @@ export const airTable = {
   setOffset: function (val) {
     this.offset = val;
   },
-  fetchData: async (sessionStorageKey, dispatch) => {
+  fetchData: async (sessionStorageKey, dispatch, query) => {
     let url =
       "https://api.airtable.com/v0/appAaEysX2qTVLYXy/Imported%20table?view=Grid%20view";
-    if (airTable.offset) {
+
+    if (query) {
+      url += `&filterByFormula=SEARCH("${query.toLowerCase()}",LOWER({name}))`;
+    } else if (airTable.offset) {
       url += `&offset=${airTable.offset}`;
     }
+
     dispatch({ type: FETCHING });
     try {
       const response = await fetch(url, {
@@ -104,23 +115,23 @@ export const airTable = {
         }),
       });
       const data = await response.json();
-      // cache.current[url] = data;
       if (airTable.cancelRequest) return;
       const mappedRecords = data.records.map((record) => ({
         id: record.id,
         ...record.fields,
       }));
       dispatch({ type: FETCHED, payload: mappedRecords });
-      dispatch({ type: SET_LIST_DATA, payload: mappedRecords });
+      dispatch({ type: query ? SET_QUERY_LIST_DATA : SET_LIST_DATA, payload: mappedRecords });
       airTable.setOffset(data.offset);
-      sessionStorage.setItem(sessionStorageKey, JSON.stringify(mappedRecords));
+      if (sessionStorageKey) {
+        sessionStorage.setItem(sessionStorageKey, JSON.stringify(mappedRecords));
+      }
     } catch (error) {
       if (airTable.cancelRequest) return;
       dispatch({ type: FETCH_ERROR, payload: error.message });
     }
   },
   useFetchAirTable: (sessionStorageKey) => {
-    // const cache = useRef({});
     const [state, dispatch] = useReducer(namesReducer, initialState);
 
     useEffect(() => {
@@ -143,7 +154,28 @@ export const airTable = {
 
     return [state, dispatch];
   },
+  useQueryAirTable: () => {
+    const [state, dispatch] = useReducer(namesReducer, initialState);
+
+    useEffect(() => {
+      airTable.cancelRequest = false;
+
+      airTable.fetchData(null, dispatch);
+
+      return function cleanup() {
+        airTable.cancelRequest = true;
+      };
+    }, []);
+
+    return [state, dispatch];
+  },
   fetchMoreData: (sessionStorageKey, dispatch) => {
     airTable.fetchData(sessionStorageKey, dispatch);
   },
+  fetchQueriedData: (dispatch, query) => {
+    airTable.fetchData(null, dispatch, query);
+  },
+  clearQueriedData: (dispatch) => {
+    dispatch({ type: SET_QUERY_LIST_DATA, payload: [] })
+  }
 };

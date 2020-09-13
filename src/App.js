@@ -19,8 +19,7 @@ export default function App() {
   return (
     <Router>
       <div className="container m-auto text-base px-6">
-        <Header />
-
+        <Header />    
         <Switch>
           <Route path="/about">
             <About />
@@ -35,7 +34,6 @@ export default function App() {
             <Home />
           </Route>
         </Switch>
-
         <Footer />
       </div>
     </Router>

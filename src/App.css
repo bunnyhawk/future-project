@@ -1,13 +1,14 @@
 :root {
   --timeout: 500ms;
   --list-item-max-height: 30px;
-  --color-primary: #FF3C3C;
+  --color-primary: #ff3838;
   --color-background: #0A0A0A;
   --color-text: #fff;
-  --color-cta: #FF3C3C;
+  --color-cta: #ff3838;
 }
 
 .home__header {
+  min-height: 140px;
   max-width: 690px;
 }
 .nameList__item {
@@ -208,27 +209,21 @@ input:focus + label {
 }
 
 .submit-enter {
-  max-height: 0;
   opacity: 0;
 }
 
 .submit-enter-active {
-  max-height: 2000px;
   opacity: 1;
-  transition: all var(--timeout);
-  transition: all 300ms;
+  transition: opacity var(--timeout);
 }
 
 .submit-exit {
-  max-height: 2000px;
   opacity: 1;
 }
 
 .submit-exit-active {
-  max-height: 0;
   opacity: 0;
-  transition: all var(--timeout);
-  transition: all 300ms;
+  transition: opacity 0;
 }
 
 .__react_component_tooltip {
@@ -245,4 +240,21 @@ input:focus + label {
     position: fixed;
     bottom: 20px;
   }
+}
+
+.bg-cta.text-light {
+  border: 1px solid #000;
+  text-shadow: 1px 1px 1px #000;
+}
+
+button,
+a {
+  transition: all 300ms ease;
+}
+
+a.bg-cta:active,
+a.bg-cta:hover,
+a.bg-cta:focus {
+  text-shadow: 1px 3px 3px #000;
+  border: 1px solid #fff;
 }
