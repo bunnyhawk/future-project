@@ -57,7 +57,8 @@ export const useFetch = (url, sessionStorageKey) => {
     const localData = sessionStorage.getItem(sessionStorageKey);
 
     if (localData) {
-      dispatch({ type: FETCHED, payload: JSON.parse(localData) });
+      dispatch({ type: FETCHED });
+      dispatch({ type: SET_NATIONAL_DATA, payload: JSON.parse(localData) })
     } else {
       const fetchData = async () => {
         dispatch({ type: FETCHING });

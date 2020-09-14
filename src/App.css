@@ -1,10 +1,10 @@
 :root {
   --timeout: 500ms;
   --list-item-max-height: 30px;
-  --color-primary: #ff3838;
+  --color-primary: #fe1f1f;
   --color-background: #0A0A0A;
   --color-text: #fff;
-  --color-cta: #ff3838;
+  --color-cta: #fe1f1f;
 }
 
 .home__header {
@@ -266,4 +266,13 @@ a.bg-cta:hover,
 a.bg-cta:focus {
   text-shadow: 1px 3px 3px #000;
   border: 1px solid #fff;
+}
+
+.totalNationalCount {
+  opacity: 0;
+  transition: opacity 1000ms ease-in;
+}
+
+.totalNationalCount.show {
+  opacity: 1;
 }

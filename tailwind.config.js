@@ -12,7 +12,7 @@ module.exports = {
       primary: 'var(--color-primary)',
       background: 'var(--color-background)',
       text: 'var(--color-text)',
-      cta: '#FF3C3C',
+      cta: '#fe1f1f',
       light: '#FFF',
       dark: '#0A0A0A'
     }
