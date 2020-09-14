@@ -5,7 +5,7 @@ import TextLink from '../components/TextLink';
 
 const About = () => {
   return (
-    <div>
+    <main>
       <div className="m-auto mb-8">
         <Title>About Covid • In Memoriam</Title>
       </div>
@@ -25,7 +25,7 @@ const About = () => {
         Frank Bach - Design<br />
         Robert Higdon - Development<br />
       </p>
-    </div>
+    </main>
   );
 }
  

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useFetch, FETCHING, airTable } from "../state/hooks";
+import { useFetch, airTable } from "../state/hooks";
+import { FETCHING } from '../state/constants';
 
 import Title from "../components/Title";
 import NameList from "../components/NameList";
@@ -44,7 +45,7 @@ const Home = () => {
   }
   
   return (
-    <div className="bg-dark text-light text-center">
+    <main className="bg-dark text-light text-center">
       <div className="home__header m-auto">
         <Title>
           <span className={`totalNationalCount text-cta ${hasNationalData ? 'show' : ''}`}>{deaths && deaths.toLocaleString()}</span>
@@ -72,7 +73,7 @@ const Home = () => {
             />
           </div>
           <button
-            className="border border-solid border-light px-3 py-2 hover:border-cta focus:border-cta rounded"
+            className="border border-solid border-light px-3 py-2 active:border-cta hover:border-cta focus:border-cta rounded"
             onClick={isQueryList ? handleSearchClear : handleSearchSubmit}>
               { isQueryList ? 'Clear' : 'Search' }
             </button>
@@ -100,7 +101,7 @@ const Home = () => {
       >
         View More
       </button>
-    </div>
+    </main>
   );
 };
 

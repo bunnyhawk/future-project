@@ -38,7 +38,7 @@ const Submit = () => {
   const handleButtonClick = () => setSubmitted(false);
 
   return (
-    <div className="bg-background text-light text-center">
+    <main className="bg-background text-light text-center">
       <div className="home__header m-auto mb-4">
         <Title>Honor a loved one</Title>
         <CSSTransition in={!submitted} timeout={300} classNames="submit" unmountOnExit>
@@ -141,7 +141,7 @@ const Submit = () => {
           disabled={isSubmitting}
         >Submit someone else</button>
       }
-    </div>
+    </main>
   );
 }
  

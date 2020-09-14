@@ -1,49 +1,14 @@
 import { useEffect, useRef, useReducer } from "react";
-
-export const SET_NATIONAL_DATA = "SET_NATIONAL_DATA";
-export const GET_LIST_DATA = "GET_LIST_DATA";
-export const SET_LIST_DATA = "SET_LIST_DATA";
-export const SET_QUERY_LIST_DATA = "SET_QUERY_LIST_DATA";
-export const FETCHING = "FETCHING";
-export const FETCHED = "FETCHED";
-export const FETCH_ERROR = "FETCH_ERROR";
-
-export const initialState = {
-  status: "idle",
-  error: null,
-  nationalData: [],
-  currentList: [],
-  queryList: [],
-  recordsVisible: 100,
-};
-
-export const namesReducer = (state, action) => {
-  switch (action.type) {
-    case FETCHING:
-      return { ...state, status: FETCHING };
-    case FETCHED:
-      return {
-        ...state,
-        status: FETCHED,
-      };
-    case FETCH_ERROR:
-      return { ...state, status: FETCH_ERROR, error: action.payload };
-    case SET_NATIONAL_DATA:
-      return { ...state, nationalData: action.payload };
-    case SET_LIST_DATA:
-      return {
-        ...state,
-        currentList: [...state.currentList, ...action.payload],
-      };
-    case SET_QUERY_LIST_DATA:
-      return {
-        ...state,
-        queryList: action.payload
-      }
-    default:
-      return state;
-  }
-};
+import namesReducer from './reducer';
+import {
+  SET_NATIONAL_DATA,
+  SET_LIST_DATA,
+  SET_QUERY_LIST_DATA,
+  FETCHING,
+  FETCHED,
+  FETCH_ERROR
+} from './constants';
+import initialState from './initialState';
 
 export const useFetch = (url, sessionStorageKey) => {
   const cache = useRef({});
@@ -58,14 +23,14 @@ export const useFetch = (url, sessionStorageKey) => {
 
     if (localData) {
       dispatch({ type: FETCHED });
-      dispatch({ type: SET_NATIONAL_DATA, payload: JSON.parse(localData) })
+      dispatch({ type: SET_NATIONAL_DATA, payload: JSON.parse(localData) });
     } else {
       const fetchData = async () => {
         dispatch({ type: FETCHING });
         if (cache.current[url]) {
           const data = cache.current[url];
           dispatch({ type: FETCHED });
-          dispatch({ type: SET_NATIONAL_DATA, payload: data })
+          dispatch({ type: SET_NATIONAL_DATA, payload: data });
         } else {
           try {
             const response = await fetch(url);
@@ -73,7 +38,7 @@ export const useFetch = (url, sessionStorageKey) => {
             cache.current[url] = data;
             if (cancelRequest) return;
             dispatch({ type: FETCHED });
-            dispatch({ type: SET_NATIONAL_DATA, payload: data })
+            dispatch({ type: SET_NATIONAL_DATA, payload: data });
             sessionStorage.setItem(sessionStorageKey, JSON.stringify(data));
           } catch (error) {
             if (cancelRequest) return;
@@ -101,7 +66,7 @@ export const airTable = {
   },
   fetchData: async (sessionStorageKey, dispatch, query) => {
     let url =
-      "https://api.airtable.com/v0/appAaEysX2qTVLYXy/Imported%20table?view=Grid%20view";
+      "https://api.airtable.com/v0/appAaEysX2qTVLYXy/covid-memorial?view=Grid%20view";
 
     if (query) {
       url += `&filterByFormula=SEARCH("${query.toLowerCase()}",LOWER({name}))`;
@@ -124,10 +89,16 @@ export const airTable = {
         ...record.fields,
       }));
       dispatch({ type: FETCHED, payload: mappedRecords });
-      dispatch({ type: query ? SET_QUERY_LIST_DATA : SET_LIST_DATA, payload: mappedRecords });
+      dispatch({
+        type: query ? SET_QUERY_LIST_DATA : SET_LIST_DATA,
+        payload: mappedRecords,
+      });
       airTable.setOffset(data.offset);
       if (sessionStorageKey) {
-        sessionStorage.setItem(sessionStorageKey, JSON.stringify(mappedRecords));
+        sessionStorage.setItem(
+          sessionStorageKey,
+          JSON.stringify(mappedRecords)
+        );
       }
     } catch (error) {
       if (airTable.cancelRequest) return;
@@ -169,6 +140,6 @@ export const airTable = {
     airTable.fetchData(null, dispatch, query);
   },
   clearQueriedData: (dispatch) => {
-    dispatch({ type: SET_QUERY_LIST_DATA, payload: [] })
-  }
+    dispatch({ type: SET_QUERY_LIST_DATA, payload: [] });
+  },
 };

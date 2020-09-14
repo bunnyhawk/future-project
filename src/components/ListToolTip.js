@@ -1,7 +1,6 @@
 import React from "react";
 import ReactTooltip from "react-tooltip";
 import CloseIcon from "../components/CloseIcon";
-import TextLink from '../components/TextLink'
 
 const ListToolTip = ({ person, idx }) => (
   <ReactTooltip
@@ -19,9 +18,11 @@ const ListToolTip = ({ person, idx }) => (
       <br />
       {person.age}, {person.location}
       <p className="my-2 italic">{person.about}</p>
-      <p className="opacity-50">Source: {person.source}</p>
+      <p className="opacity-50">
+        Source: {person.source} {person.relation}
+      </p>
     </div>
   </ReactTooltip>
 );
- 
+
 export default ListToolTip;
