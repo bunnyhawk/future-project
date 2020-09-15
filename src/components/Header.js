@@ -8,7 +8,7 @@ const Header = () => (
         <li className="mb-1 sm:mr-4">
           <Link
             to="/"
-            className="underline active:text-cta hover:text-cta focus:text-cta"
+            className="underline active:text-primary hover:text-primary focus:text-primary"
           >
             Home
           </Link>
@@ -16,7 +16,7 @@ const Header = () => (
         <li className="mb-1 sm:mr-4">
           <Link
             to="/about"
-            className="underline active:text-cta hover:text-cta focus:text-cta"
+            className="underline active:text-primary hover:text-primary focus:text-primary"
           >
             About
           </Link>
@@ -24,7 +24,7 @@ const Header = () => (
         <li className="mb-1">
           <Link
             to="/donate"
-            className="underline active:text-cta hover:text-cta focus:text-cta"
+            className="underline active:text-primary hover:text-primary focus:text-primary"
           >
             Donate
           </Link>
@@ -32,7 +32,7 @@ const Header = () => (
       </ul>
       <Link
         to="/submit"
-        className="bg-cta border border-cta active:border-light hover:border-light focus:border-light px-4 py-2 rounded text-light order-1 sm:order-2 mb-5 sm:mb-0"
+        className="bg-primary border border-primary active:border-text hover:border-text focus:border-text px-4 py-2 rounded text-text order-1 sm:order-2 mb-5 sm:mb-0"
       >
         Honor a Loved One
       </Link>

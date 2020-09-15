@@ -10,7 +10,7 @@ const ListToolTip = ({ person, idx }) => (
     type="light"
     effect="float"
   >
-    <div className="bg-light p-3">
+    <div className="bg-text p-3">
       <div className="float-right sm:hidden">
         <CloseIcon />
       </div>

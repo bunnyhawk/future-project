@@ -64,7 +64,7 @@ export const airTable = {
   setOffset: function (val) {
     this.offset = val;
   },
-  fetchData: async (sessionStorageKey, dispatch, query) => {
+  fetchData: async (dispatch, query) => {
     let url =
       "https://api.airtable.com/v0/appAaEysX2qTVLYXy/covid-memorial?view=Grid%20view";
 
@@ -94,37 +94,32 @@ export const airTable = {
         payload: mappedRecords,
       });
       airTable.setOffset(data.offset);
-      if (sessionStorageKey) {
-        sessionStorage.setItem(
-          sessionStorageKey,
-          JSON.stringify(mappedRecords)
-        );
-      }
     } catch (error) {
       if (airTable.cancelRequest) return;
       dispatch({ type: FETCH_ERROR, payload: error.message });
     }
   },
-  useFetchAirTable: (sessionStorageKey) => {
+  useFetchAirTable: () => {
     const [state, dispatch] = useReducer(namesReducer, initialState);
 
     useEffect(() => {
       airTable.cancelRequest = false;
-      if (!sessionStorageKey) return;
+      // if (!sessionStorageKey) return;
 
-      const localData = sessionStorage.getItem(sessionStorageKey);
-
-      if (localData) {
-        dispatch({ type: FETCHED });
-        dispatch({ type: SET_LIST_DATA, payload: JSON.parse(localData) });
-      } else {
-        airTable.fetchData(sessionStorageKey, dispatch);
-      }
+      const initialData = require('../data/initialData.json');
+      const mappedRecords = initialData.records.map((record) => ({
+        id: record.id,
+        ...record.fields,
+      }));
+      dispatch({
+        type: SET_LIST_DATA,
+        payload: mappedRecords,
+      });
 
       return function cleanup() {
         airTable.cancelRequest = true;
       };
-    }, [sessionStorageKey]);
+    }, []);
 
     return [state, dispatch];
   },
@@ -133,11 +128,11 @@ export const airTable = {
 
     return [state, dispatch];
   },
-  fetchMoreData: (sessionStorageKey, dispatch) => {
-    airTable.fetchData(sessionStorageKey, dispatch);
+  fetchMoreData: (dispatch) => {
+    airTable.fetchData(dispatch);
   },
   fetchQueriedData: (dispatch, query) => {
-    airTable.fetchData(null, dispatch, query);
+    airTable.fetchData(dispatch, query);
   },
   clearQueriedData: (dispatch) => {
     dispatch({ type: SET_QUERY_LIST_DATA, payload: [] });

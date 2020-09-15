@@ -30,7 +30,7 @@ const FileInput = ({ name, label, inputRef, validation, getValues, errors, submi
     <Fragment>
       <label
         htmlFor={name}
-        className="w-100 flex flex-row justify-center px-3 py-2 mt-4 bg-background normal-case rounded-lg tracking-wide border border-blue cursor-pointer"
+        className="w-100 flex flex-row justify-center px-3 py-2 mt-4 bg-theme normal-case rounded-lg tracking-wide border border-blue cursor-pointer"
       >
         <svg
           className="w-6 h-6"

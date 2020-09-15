@@ -16,7 +16,7 @@ const NameList = ({ list, isQueryList }) => (
           key={`${person.location}-${person.name}-${person.age}`}
         >
           <span
-            className="pr-2 relative nameList__itemRecord active:text-cta hover:text-cta focus:text-cta"
+            className="pr-2 relative nameList__itemRecord active:text-primary hover:text-primary focus:text-primary"
             data-tip
             data-for={`${idx}-${person.age}`}
           >

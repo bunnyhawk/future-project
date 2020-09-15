@@ -1,7 +1,9 @@
 :root {
+  --timeout: 500ms;
+  --list-item-max-height: 30px;
   --color-primary: #FF3C3C;
-  --color-background: #0A0A0A;
-  --color-text: #FFF;
+  --color-theme: #0A0A0A;
+  --color-text: #fff;
 }
 
 @tailwind base;

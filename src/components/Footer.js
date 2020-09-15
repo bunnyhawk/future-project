@@ -7,7 +7,7 @@ const Footer = () => (
       <li>
         <Link
           to="#"
-          className="termsLink underline mr-2 active:text-cta hover:text-cta focus:text-cta"
+          className="termsLink underline mr-2 active:text-primary hover:text-primary focus:text-primary"
         >
           Terms of Service
         </Link>
@@ -15,7 +15,7 @@ const Footer = () => (
       <li>
         <Link
           to="#"
-          className="underline active:text-cta hover:text-cta focus:text-cta"
+          className="underline active:text-primary hover:text-primary focus:text-primary"
         >
           Privacy Policy
         </Link>

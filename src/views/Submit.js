@@ -38,7 +38,7 @@ const Submit = () => {
   const handleButtonClick = () => setSubmitted(false);
 
   return (
-    <main className="bg-background text-light text-center">
+    <main className="bg-theme text-text text-center">
       <div className="home__header m-auto mb-4">
         <Title>Honor a loved one</Title>
         <CSSTransition in={!submitted} timeout={300} classNames="submit" unmountOnExit>
@@ -129,14 +129,14 @@ const Submit = () => {
           <p className="leading-tight mt-4 mb-12 text-sm">Please attach an image or PDF of a death certificate or other proof available.</p>
           <button
             type="submit"
-            className="bg-cta w-full mt-4 px-4 py-2 rounded text-light">
+            className="bg-primary w-full mt-4 px-4 py-2 rounded text-text">
             Submit
           </button>
         </form>
       </CSSTransition>
       {submitted &&
         <button
-          className="bg-light px-4 py-2 rounded text-background order-1 sm:order-2 mb-5 sm:mb-0"
+          className="bg-text px-4 py-2 rounded text-theme order-1 sm:order-2 mb-5 sm:mb-0"
           onClick={handleButtonClick}
           disabled={isSubmitting}
         >Submit someone else</button>

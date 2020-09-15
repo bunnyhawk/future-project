@@ -10,18 +10,14 @@ module.exports = {
     extend: {},
     colors: {
       primary: 'var(--color-primary)',
-      background: 'var(--color-background)',
+      theme: 'var(--color-theme)',
       text: 'var(--color-text)',
-      cta: '#fe1f1f',
-      light: '#FFF',
-      dark: '#0A0A0A'
     }
   },
   variants: {
     primary: ['hover', 'focus', 'active'],
-    cta: ['hover', 'focus', 'active'],
-    light: ['hover', 'focus', 'active'],
-    dark: ['hover', 'focus', 'active']
+    text: ['hover', 'focus', 'active'],
+    theme: ['hover', 'focus', 'active']
   },
   plugins: [],
 }

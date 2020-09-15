@@ -9,7 +9,7 @@ const TextInput = ({ name, inputRef, validation, label, errors }) => (
       type="text"
       name={name}
       ref={inputRef ? inputRef({ required: true, ...validation }) : null}
-      className="w-full bg-background text-base border border-solid border-light rounded p-2"
+      className="w-full bg-theme text-base border border-solid border-text rounded p-2"
       required
     />
     <div className="text-sm text-primary text-right float-right">
