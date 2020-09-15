@@ -87,7 +87,7 @@ const Home = () => {
           isQueryList={isQueryList}
         />
       }
-      <div className="dots flex justify-center">
+      <div className="dots flex justify-center text-text">
         {(status === FETCHING || queryStatus === FETCHING) && (
           <div>
             <span className="dot dot1">.</span>
@@ -97,7 +97,7 @@ const Home = () => {
         )}
       </div>
       <button
-        className="bg-text text-theme rounded px-5 py-2 mt-8"
+        className="bg-text text-theme rounded border border-solid border-text px-5 py-2 mt-8 active:border-primary hover:border-primary focus:border-primary"
         onClick={handleViewMore}
       >
         View More

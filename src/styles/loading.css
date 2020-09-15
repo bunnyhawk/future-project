@@ -4,7 +4,7 @@
 }
 
 .dots {
-  color: white;
+  color: var(--color-text);
   min-height: 50px;
 }
 .dot1 {
