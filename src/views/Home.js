@@ -81,12 +81,13 @@ const Home = () => {
         </div>
       </div>
 
-      {queryStatus !== FETCHING && currentList.length > 0 && 
+      {queryStatus !== FETCHING && currentList.length > 0 && (
         <NameList
           list={isQueryList ? queryList : currentList || []}
           isQueryList={isQueryList}
         />
-      }
+      )}
+
       <div className="dots flex justify-center text-text">
         {(status === FETCHING || queryStatus === FETCHING) && (
           <div>

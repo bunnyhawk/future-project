@@ -9,8 +9,10 @@ const ListToolTip = ({ person, idx }) => (
     role="example"
     type="light"
     effect="float"
+    position="top"
+    className="border border-solid border-black"
   >
-    <div className="bg-text text-theme p-6">
+    <div className="p-6">
       <div className="float-right sm:hidden">
         <CloseIcon />
       </div>

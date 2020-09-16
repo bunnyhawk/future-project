@@ -6,6 +6,8 @@ const Header = () => {
     const rootStyle = window.getComputedStyle(document.documentElement);
     const currTextColor = rootStyle.getPropertyValue("--color-text");
 
+    document.body.classList.toggle('light')
+
     document.documentElement.style.setProperty(
       "--color-text",
       rootStyle.getPropertyValue("--color-theme")
@@ -48,15 +50,9 @@ const Header = () => {
           Honor a Loved One
         </Link>
       </nav>
-      {/* <button onClick={handleThemeChange} className="themeChange text-text">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-labelledby="svgTitle" role="img">
-          <title id="svgTitle">Change the theme</title>
-          <path d="M12 3.571c3.658 5.437 6 9.223 6 12.503 0 3.268-2.691 5.926-6 5.926s-6-2.658-6-5.925c0-3.281 2.341-7.067 6-12.504zm0-3.571c-4.87 7.197-8 11.699-8 16.075 0 4.378 3.579 7.925 8 7.925s8-3.547 8-7.925c0-4.376-3.13-8.878-8-16.075z"/>
-        </svg>
-      </button> */}
       <div className="themeChange tg-list-item" onChange={handleThemeChange}>
         <input class="tgl tgl-flat" id="cb4" type="checkbox"></input>
-        <label class="tgl-btn" for="cb4"><span class="sr-only">Change the theme</span></label>
+        <label class="tgl-btn" htmlFor="cb4"><span class="sr-only">Change the theme</span></label>
       </div>
     </header>
   );
