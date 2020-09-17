@@ -51,8 +51,8 @@ const Header = () => {
         </Link>
       </nav>
       <div className="themeChange tg-list-item" onChange={handleThemeChange}>
-        <input class="tgl tgl-flat" id="cb4" type="checkbox"></input>
-        <label class="tgl-btn" htmlFor="cb4"><span class="sr-only">Change the theme</span></label>
+        <input className="tgl tgl-flat" id="cb4" type="checkbox"></input>
+        <label className="tgl-btn" htmlFor="cb4"><span className="sr-only">Change the theme</span></label>
       </div>
     </header>
   );

@@ -70,7 +70,7 @@ const Home = () => {
               value={searchTerm}
               onKeyDown={handleKeyDown}
               onChange={handleSearchInputChange}
-              className="w-full bg-theme text-base border-b border-solid border-text py-1"
+              className="w-full bg-theme text-base border-b border-solid border-text p-1"
             />
           </div>
           <button
