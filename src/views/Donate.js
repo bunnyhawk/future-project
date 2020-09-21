@@ -4,7 +4,7 @@ import Title from "../components/Title";
 import TextLink from "../components/TextLink";
 
 const Donate = () => (
-    <main>
+    <main className="about m-auto">
       <div className="m-auto mb-8">
         <Title>
           The organizations below are offering timely aid and resources to those
