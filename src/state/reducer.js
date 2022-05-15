@@ -1,38 +1,46 @@
 import {
-  SET_NATIONAL_DATA,
-  SET_LIST_DATA,
-  SET_QUERY_LIST_DATA,
-  FETCHING,
-  FETCHED,
-  FETCH_ERROR
+  SET_USER_DATA,
+  SET_WORKOUT_DATA,
+  FETCHING_USERS,
+  FETCHED_USERS,
+  FETCH_USERS_ERROR,
+  FETCHING_WORKOUT,
+  FETCHED_WORKOUTS,
+  FETCH_WORKOUT_ERROR
 } from './constants';
 
-const namesReducer = (state, action) => {
+const usersReducer = (state, action) => {
   switch (action.type) {
-    case FETCHING:
-      return { ...state, status: FETCHING };
-    case FETCHED:
+    case FETCHING_USERS:
+      return { ...state, userStatus: FETCHING_USERS };
+    case FETCHED_USERS:
       return {
         ...state,
-        status: FETCHED,
+        userStatus: FETCHED_USERS,
       };
-    case FETCH_ERROR:
-      return { ...state, status: FETCH_ERROR, error: action.payload };
-    case SET_NATIONAL_DATA:
-      return { ...state, nationalData: action.payload };
-    case SET_LIST_DATA:
+    case FETCH_USERS_ERROR:
+      return { ...state, userStatus: FETCH_USERS_ERROR, userError: action.payload };
+    case FETCHING_WORKOUT:
+      return { ...state, workoutStatus: FETCHING_WORKOUT };
+    case FETCHED_WORKOUTS:
       return {
         ...state,
-        currentList: [...state.currentList, ...action.payload],
+        workoutStatus: FETCHED_WORKOUTS,
       };
-    case SET_QUERY_LIST_DATA:
+    case FETCH_WORKOUT_ERROR:
+      return { ...state, workoutStatus: FETCH_WORKOUT_ERROR, workoutError: action.payload };
+    case SET_USER_DATA:
+      return { ...state, users: action.payload };
+    case SET_WORKOUT_DATA: {
+      const userWorkouts = Object.assign(state.userWorkouts, action.payload);
       return {
         ...state,
-        queryList: action.payload,
+        userWorkouts
       };
+    }
     default:
       return state;
   }
 };
 
-export default namesReducer;
+export default usersReducer;

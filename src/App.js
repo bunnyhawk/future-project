@@ -4,37 +4,32 @@ import {
   Switch,
   Route
 } from "react-router-dom";
-import About from './views/About';
-import Donate from './views/Donate';
-import Home from './views/Home';
-import Submit from './views/Submit';
+import { useFetchUsers } from "./state/hooks";
+import { USER_API } from "./state/constants";
 
-import Header from './components/Header';
-import Footer from './components/Footer';
+import Home from './views/Home';
+import UserDetails from './views/UserDetails';
 
 import './tailwind.output.css';
 import './App.css';
 
 export default function App() {
+  const [{ users, userWorkouts, userStatus, workoutStatus }] = useFetchUsers(USER_API, "userData");
+  const props = { users, userWorkouts, userStatus, workoutStatus };
+
   return (
     <Router>
       <div className="container m-auto text-base px-6">
-        <Header />    
+
         <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/donate">
-            <Donate />
-          </Route>
-          <Route path="/submit">
-            <Submit />
+          <Route path="/user/:id">
+            <UserDetails {...props} />
           </Route>
           <Route path="/">
-            <Home />
+            <Home  {...props} />
           </Route>
         </Switch>
-        <Footer />
+
       </div>
     </Router>
   );

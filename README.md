@@ -1,10 +1,7 @@
-# COVID-19 Memorial API
+# Future Project
 
 ### INFO
-This is a front-end for the COVID Memorial project. This is meant to be a living memorial for those lives lost from COVID. The API for this repo can be found here:
-```
-https://github.com/bunnyhawk/covid-memorial-api
-```
+xxx
 
 ### DEVELOP
 ```

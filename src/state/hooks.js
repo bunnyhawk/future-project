@@ -1,19 +1,104 @@
 import { useEffect, useRef, useReducer } from "react";
-import namesReducer from './reducer';
+import usersReducer from './reducer';
 import {
-  SET_NATIONAL_DATA,
-  SET_LIST_DATA,
-  SET_QUERY_LIST_DATA,
-  FETCHING,
-  FETCHED,
-  FETCH_ERROR
+  FETCHED_USERS,
+  FETCHED_WORKOUTS,
+  FETCHING_USERS,
+  // FETCHING_WORKOUT,
+  FETCH_USERS_ERROR,
+  // FETCH_WORKOUT_ERROR,
+  SET_USER_DATA,
+  SET_WORKOUT_DATA,
+  USER_API
 } from './constants';
 import initialState from './initialState';
 
-export const useFetch = (url, sessionStorageKey) => {
+
+
+// export const useFetchWorkouts = (url, userId, userEmail, sessionStorageKey) => {
+//   const cache = useRef({});
+
+//   const [state, dispatch] = useReducer(usersReducer, initialState);
+
+//   useEffect(() => {
+//     const sessionKey = `${sessionStorageKey}-${userId}`
+//     let cancelRequest = false;
+//     if (!url || !sessionKey) return;
+
+//     const localData = sessionStorage.getItem(sessionKey);
+
+//     if (localData) {
+//       dispatch({ type: FETCHED_WORKOUTS });
+//       dispatch({ type: SET_WORKOUT_DATA, payload: { [userEmail]: JSON.parse(localData) } });
+//     } else {
+//       const fetchData = async () => {
+//         dispatch({ type: FETCHING_WORKOUT });
+//         if (cache.current[url]) {
+//           const data = cache.current[url];
+//           dispatch({ type: FETCHED_WORKOUTS });
+//           dispatch({ type: SET_WORKOUT_DATA, payload: { [userEmail]: data } });
+//         } else {
+//           try {
+//             const response = await fetch(url);
+//             const data = await response.json();
+//             cache.current[url] = data;
+//             if (cancelRequest) return;
+//             dispatch({ type: FETCHED_WORKOUTS });
+//             dispatch({ type: SET_WORKOUT_DATA, payload: { [userEmail]: data } });
+
+//             sessionStorage.setItem(sessionKey, JSON.stringify(data));
+//           } catch (error) {
+//             if (cancelRequest) return;
+//             dispatch({ type: FETCH_WORKOUT_ERROR, payload: error.message });
+//           }
+//         }
+//       };
+
+//       fetchData();
+//     }
+
+//     return function cleanup() {
+//       cancelRequest = true;
+//     };
+//   }, [url, sessionStorageKey, userId, userEmail]);
+
+//   return [state, dispatch];
+// };
+
+const fetchWorkouts = (users, dispatch) => {
+  users.forEach(user => {
+    const sessionKey = `userWorkouts-${user.id}`
+    if (!user || !sessionKey) return;
+
+    const localData = sessionStorage.getItem(sessionKey);
+
+    if (localData) {
+      dispatch({ type: SET_WORKOUT_DATA, payload: { [user.id]: JSON.parse(localData) } });
+      // return ;
+    } else {
+      const fetchData = () => {
+        try {
+          const response = fetch(`${USER_API}/${user.id}/workouts`);
+          const data = response.json();
+
+          sessionStorage.setItem(sessionKey, JSON.stringify(data));
+          return dispatch({ type: SET_WORKOUT_DATA, payload: { [user.id]: data } });
+
+        } catch (error) {
+          return error.message;
+        }
+      };
+
+      fetchData();
+    }
+  });
+  dispatch({ type: FETCHED_WORKOUTS });
+}
+
+export const useFetchUsers = (url, sessionStorageKey) => {
   const cache = useRef({});
 
-  const [state, dispatch] = useReducer(namesReducer, initialState);
+  const [state, dispatch] = useReducer(usersReducer, initialState);
 
   useEffect(() => {
     let cancelRequest = false;
@@ -22,27 +107,35 @@ export const useFetch = (url, sessionStorageKey) => {
     const localData = sessionStorage.getItem(sessionStorageKey);
 
     if (localData) {
-      dispatch({ type: FETCHED });
-      dispatch({ type: SET_NATIONAL_DATA, payload: JSON.parse(localData) });
+      dispatch({ type: FETCHED_USERS });
+      dispatch({ type: SET_USER_DATA, payload: JSON.parse(localData) });
+      fetchWorkouts(JSON.parse(localData), dispatch);
+
+      // dispatch({ type: SET_WORKOUT_DATA, payload: currentWorkoutSessions });
     } else {
       const fetchData = async () => {
-        dispatch({ type: FETCHING });
+        dispatch({ type: FETCHING_USERS });
         if (cache.current[url]) {
           const data = cache.current[url];
-          dispatch({ type: FETCHED });
-          dispatch({ type: SET_NATIONAL_DATA, payload: data });
+          dispatch({ type: FETCHED_USERS });
+          dispatch({ type: SET_USER_DATA, payload: data });
+          fetchWorkouts(data, dispatch);
+
+          // dispatch({ type: SET_WORKOUT_DATA, payload: currentWorkoutSessions });
         } else {
           try {
             const response = await fetch(url);
             const data = await response.json();
             cache.current[url] = data;
             if (cancelRequest) return;
-            dispatch({ type: FETCHED });
-            dispatch({ type: SET_NATIONAL_DATA, payload: data });
+            dispatch({ type: FETCHED_USERS });
+            dispatch({ type: SET_USER_DATA, payload: data });
+            fetchWorkouts(data, dispatch);
+
             sessionStorage.setItem(sessionStorageKey, JSON.stringify(data));
           } catch (error) {
             if (cancelRequest) return;
-            dispatch({ type: FETCH_ERROR, payload: error.message });
+            dispatch({ type: FETCH_USERS_ERROR, payload: error.message });
           }
         }
       };
@@ -56,85 +149,4 @@ export const useFetch = (url, sessionStorageKey) => {
   }, [url, sessionStorageKey]);
 
   return [state, dispatch];
-};
-
-export const airTable = {
-  cancelRequest: false,
-  offset: null,
-  setOffset: function (val) {
-    this.offset = val;
-  },
-  fetchData: async (dispatch, query) => {
-    let url =
-      "https://api.airtable.com/v0/appAaEysX2qTVLYXy/covid-memorial?view=Grid%20view";
-
-    if (query) {
-      url += `&filterByFormula=SEARCH("${query.toLowerCase()}",LOWER({name}))`;
-    } else if (airTable.offset) {
-      url += `&offset=${airTable.offset}`;
-    }
-
-    dispatch({ type: FETCHING });
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: new Headers({
-          authorization: `Bearer ${process.env.REACT_APP_AIRTABLE_KEY}`,
-        }),
-      });
-      const data = await response.json();
-      if (airTable.cancelRequest) return;
-      const mappedRecords = data.records.map((record) => ({
-        id: record.id,
-        ...record.fields,
-      }));
-      dispatch({ type: FETCHED, payload: mappedRecords });
-      dispatch({
-        type: query ? SET_QUERY_LIST_DATA : SET_LIST_DATA,
-        payload: mappedRecords,
-      });
-      airTable.setOffset(data.offset);
-    } catch (error) {
-      if (airTable.cancelRequest) return;
-      dispatch({ type: FETCH_ERROR, payload: error.message });
-    }
-  },
-  useFetchAirTable: () => {
-    const [state, dispatch] = useReducer(namesReducer, initialState);
-
-    useEffect(() => {
-      airTable.cancelRequest = false;
-      // if (!sessionStorageKey) return;
-
-      const initialData = require('../data/initialData.json');
-      const mappedRecords = initialData.records.map((record) => ({
-        id: record.id,
-        ...record.fields,
-      }));
-      dispatch({
-        type: SET_LIST_DATA,
-        payload: mappedRecords,
-      });
-
-      return function cleanup() {
-        airTable.cancelRequest = true;
-      };
-    }, []);
-
-    return [state, dispatch];
-  },
-  useQueryAirTable: () => {
-    const [state, dispatch] = useReducer(namesReducer, initialState);
-
-    return [state, dispatch];
-  },
-  fetchMoreData: (dispatch) => {
-    airTable.fetchData(dispatch);
-  },
-  fetchQueriedData: (dispatch, query) => {
-    airTable.fetchData(dispatch, query);
-  },
-  clearQueriedData: (dispatch) => {
-    dispatch({ type: SET_QUERY_LIST_DATA, payload: [] });
-  },
 };

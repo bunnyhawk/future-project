@@ -1,10 +1,10 @@
 const initialState = {
-  status: "idle",
-  error: null,
-  nationalData: [],
-  currentList: [],
-  queryList: [],
-  recordsVisible: 100,
+  userStatus: null,
+  workoutStatus: null,
+  userError: null,
+  workoutError: null,
+  users: [],
+  userWorkouts: {}
 };
 
 export default initialState;
