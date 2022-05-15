@@ -8,8 +8,8 @@ const Home = ({ users, userWorkouts, userStatus, workoutStatus }) => {
   const workoutsLoaded = workoutStatus === FETCHED_WORKOUTS && !!userWorkouts;
 
   return (
-    <main className="bg-theme text-text text-center">
-      <div className="text-lg">Your Roster</div>
+    <main className="bg-theme text-text">
+      <h1 className="text-2xl font-bold">Your Roster</h1>
       {!usersLoaded && (
         <div>
           <span className="dot dot1">.</span>

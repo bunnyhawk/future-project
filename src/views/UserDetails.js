@@ -10,7 +10,7 @@ const UserDetails = ({ users, userWorkouts }) => {
 
   return (
     <main className="bg-theme text-text text-left">
-      <h1 className="text-xl">{currentUser.first_name} {currentUser.last_name}</h1>
+      <h1 className="text-2xl font-bold">{currentUser.first_name} {currentUser.last_name}</h1>
       <WorkoutList workouts={userWorkouts[id]} />
     </main>
   );
