@@ -10,7 +10,7 @@ const User = ({ user, workouts, isFlagged }) => {
           <div className="w-full md:w-1/2">
             {user.first_name} {user.last_name} {isFlagged && (<span role="img" aria-label="flagged user">🚩</span>)}
           </div>
-          <div className="flex flex-row md:flex-col md:w-1/2 justify-between">
+          <div className="flex flex-row md:w-1/2 justify-between">
             <div className="md:w-2/6 text-sm">
               <span className="font-bold">Sessions:</span> {workouts.length}<br />
               <span className="font-bold">Missed:</span> {user.missedSessions}
