@@ -5,11 +5,11 @@ import UserList from "../components/UserList";
 
 const Home = ({ users, userWorkouts, userStatus, workoutStatus }) => {
   const usersLoaded = userStatus === FETCHED_USERS && users.length > 0;
-  const workoutsLoaded = workoutStatus === FETCHED_WORKOUTS;
+  const workoutsLoaded = workoutStatus === FETCHED_WORKOUTS && !!userWorkouts;
 
   return (
     <main className="bg-theme text-text text-center">
-
+      <div className="text-lg">Your Roster</div>
       {!usersLoaded && (
         <div>
           <span className="dot dot1">.</span>

@@ -8,9 +8,11 @@ const UserList = ({ users, userWorkouts }) => {
   const activeUsers = [];
   const flaggedUsers = [];
 
+  if (!users || !users.length) return;
+
   users.forEach(user => {
     const sessions = userWorkouts[user.id];
-    if (!sessions.length) return;
+    if (!sessions || !sessions.length) return;
 
     const missedSessionCount = sessions.reduce((total, session) => {
       let newTotal = total;
