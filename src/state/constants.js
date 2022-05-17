@@ -9,4 +9,4 @@ export const FETCH_WORKOUT_ERROR = "FETCH_WORKOUT_ERROR";
 
 export const USER_API = "https://sandbox.future.fit/users";
 
-export const FLAG_USER_PERCENTAGE = 35;
+export const FLAG_USER_PERCENTAGE = 10;

@@ -5,7 +5,7 @@ import Workout from "./Workout";
 const WorkoutList = ({ workouts }) => {
   return (
     <ul className="py-4">
-      {workouts.map(workout => (<Workout key={workout.id} workout={workout} isFlagged />))}
+      {workouts.map(workout => (<Workout key={workout.id} workout={workout} />))}
     </ul>
   );
 };

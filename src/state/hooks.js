@@ -27,7 +27,6 @@ const fetchWorkouts = (users, dispatch) => {
           const data = await response.json();
 
           sessionStorage.setItem(sessionKey, JSON.stringify(data));
-          console.log(data)
           dispatch({ type: SET_WORKOUT_DATA, payload: { [user.id]: data } });
 
         } catch (error) {
@@ -55,9 +54,8 @@ export const useFetchUsers = (url, sessionStorageKey) => {
     if (localData) {
       dispatch({ type: FETCHED_USERS });
       dispatch({ type: SET_USER_DATA, payload: JSON.parse(localData) });
+
       fetchWorkouts(JSON.parse(localData), dispatch);
-
-
     } else {
       const fetchData = async () => {
         dispatch({ type: FETCHING_USERS });
@@ -71,7 +69,9 @@ export const useFetchUsers = (url, sessionStorageKey) => {
             const response = await fetch(url);
             const data = await response.json();
             cache.current[url] = data;
+
             if (cancelRequest) return;
+
             dispatch({ type: FETCHED_USERS });
             dispatch({ type: SET_USER_DATA, payload: data });
             fetchWorkouts(data, dispatch);

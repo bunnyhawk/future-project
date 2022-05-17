@@ -16,7 +16,7 @@ const UserList = ({ users, userWorkouts }) => {
 
     const missedSessions = sessions.reduce((total, session) => {
       let newTotal = total;
-      if (session.completion_state === 'none') {
+      if (session.completion_state === 'none' && session.type !== 'rest') {
         return newTotal + 1;
       }
       return newTotal;

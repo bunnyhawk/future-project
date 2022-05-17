@@ -12,7 +12,6 @@ import Home from './views/Home';
 import UserDetails from './views/UserDetails';
 
 import './tailwind.output.css';
-import './App.css';
 
 export default function App() {
   const [{ users, userWorkouts, userStatus, workoutStatus }] = useFetchUsers(USER_API, "userData");
@@ -38,7 +37,6 @@ export default function App() {
             <Home  {...props} />
           </Route>
         </Switch>
-
       </div>
     </Router>
   );

@@ -1,7 +1,7 @@
 # Future Project
 
 ### INFO
-xxx
+A sample project for Future
 
 ### DEVELOP
 ```

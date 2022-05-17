@@ -4,14 +4,16 @@ import WorkoutList from "../components/WorkoutList";
 
 const UserDetails = ({ users, userWorkouts }) => {
   const { id } = useParams();
+  const workouts = userWorkouts[id];
 
-  if (!userWorkouts[id]) return false;
+  if (!workouts) return false;
+
   const currentUser = users.find(user => user.id === id);
 
   return (
     <main className="bg-theme text-text text-left">
       <h1 className="text-2xl font-bold">{currentUser.first_name} {currentUser.last_name}</h1>
-      <WorkoutList workouts={userWorkouts[id]} />
+      <WorkoutList workouts={workouts} />
     </main>
   );
 };
