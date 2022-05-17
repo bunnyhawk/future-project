@@ -35,11 +35,11 @@ const UserList = ({ users, userWorkouts }) => {
   return (
     <div>
       <h2 className="mt-4 pb-2 text-lg border-b border-grey-600 text-left">Flagged Users</h2>
-      <ul className="py-4">
+      <ul className="md:grid md:gap-2 md:grid-cols-3 py-4">
         {flaggedUsers.map(user => (<User key={user.id} user={user} workouts={userWorkouts[user.id]} isFlagged />))}
       </ul>
       <h2 className="mt-4 pb-2 text-lg border-b text-left">On Track Users</h2>
-      <ul className="py-4">
+      <ul className="md:grid md:gap-2 md:grid-cols-3 py-4">
         {activeUsers.map(user => (<User key={user.id} user={user} workouts={userWorkouts[user.id]} />))}
       </ul>
     </div>

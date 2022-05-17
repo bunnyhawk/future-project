@@ -9,16 +9,16 @@ const Workout = ({ workout }) => {
 
   return (
     <li className={["block border border-gray-600 px-2 py-2 mb-2 rounded", workoutNotCompleted ? 'bg-teal-100' : 'bg-white'].join(' ')}>
-      <div className="flex flex-col md:flex-row justify-between text-left mb-2">
-        <div className="md:w-2/6 mb-2">
-          {workout.name === '' ? 'No name given' : workout.name}
-        </div>
-        <div className="md:w-2/6 text-sm mb-2">
+      <div className="mb-2">
+        {workout.name === '' ? 'No name given' : workout.name}
+      </div>
+      <div className="flex flex-col md:flex-row justify-between text-left mb-4">
+        <div className="md:w-1/2 md:pr-2 text-sm mb-2">
           <div><span className="font-bold">Completed:</span> {workoutNotCompleted ? 'No' : 'Yes'}</div>
           <div><span className="font-bold">Type:</span> {workout.type}</div>
           <div><span className="font-bold">Duration:</span> {convertToTime(workout.duration)}</div>
         </div>
-        <div className="md:w-2/6 text-sm">
+        <div className="md:w-1/2 md:pl-2 text-sm">
           <div><span className="font-bold">Scheduled:</span> {formatDate(workout.scheduled_at)}</div>
           <div><span className="font-bold">Completed:</span> {workoutNotCompleted ? 'N/A' : formatDate(workout.completed_at)}</div>
         </div>
