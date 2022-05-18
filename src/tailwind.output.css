@@ -1,11 +1,3 @@
-:root {
-  --timeout: 500ms;
-  --list-item-max-height: 30px;
-  --color-primary: #FF3C3C;
-  --color-theme: #0A0A0A;
-  --color-text: #fff;
-}
-
 /*
 ! tailwindcss v3.0.24 | MIT License | https://tailwindcss.com
 */

@@ -22,7 +22,7 @@ const UserList = ({ users, userWorkouts }) => {
       return newTotal;
     }, 0);
 
-    const currentPercentage = parseFloat(sessions.length * (missedSessions / sessions.length));
+    const currentPercentage = Math.round(100 * (missedSessions / sessions.length));
     const updatedUser = { ...user, currentPercentage, missedSessions };
 
     if (currentPercentage > FLAG_USER_PERCENTAGE) {
